@@ -182,6 +182,26 @@ public class RestController {
         voyage=voyageRepository.findByDestinationContains(destination);
         return favorisRepository.save(new Favoris(voyage.getIdVoyage(),voyageur.getIdVoyageur(),nom_favoris,voyage.getDescription(),voyage.getPrix(),voyageur.getMail()) );
     }
+     @GetMapping("/histo")
+    public List<Parpff>listeVoyages() {
+        return parpffRepository.findAll();
+        
+    }
+    @RequestMapping(value = "/histo/delete/{id}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public List<Parpff> deletehisto(@PathVariable Integer id) {
+    	parpffRepository.deleteById(id);
+    	return parpffRepository.findAll();
+		
+	}
+	
+    @GetMapping("/histosearch")
+    @ResponseBody
+    public ArrayList<Parpff> nomvoy(@RequestParam("mail") String mail){
+    Voyageur voyageur = new Voyageur();
+    voyageur=voyageurRepository.findByMailContains(mail);
+	return (ArrayList<Parpff>) parpffRepository.findAllBynom(voyageur.getNom());
+  }
     
     
     
