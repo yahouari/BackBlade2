@@ -12,5 +12,5 @@ public interface VoyageRepository extends JpaRepository<Voyage,Integer> {
 	
 	public Voyage findByDestinationContains(String dest);
 	public Voyage findByIdVoyageContains(int i);
-
+	public Voyage findById(int Id);
 }

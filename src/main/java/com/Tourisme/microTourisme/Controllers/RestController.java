@@ -11,16 +11,22 @@ import com.Tourisme.microTourisme.Model.Services.Repository.ParpffRepository;
 import com.Tourisme.microTourisme.Model.Services.Repository.ParticipationRepository;
 import com.Tourisme.microTourisme.Model.Services.Repository.VoyageRepository;
 import com.Tourisme.microTourisme.Model.Services.Repository.VoyageurRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Arrays;
 import java.util.List;
+import javax.validation.Valid;
 import java.util.Map;
 import java.util.Optional;
+import java.net.URI;
 @CrossOrigin("*")
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -40,6 +46,50 @@ public class RestController {
     public ArrayList<Voyage> listeVoyage(){
         return (ArrayList<Voyage>) voyageRepository.findAll();
     }
+    @GetMapping(value="voyages/{id}")
+    public Voyage afficherUnVoyage(@PathVariable int id){
+        return voyageRepository.findById(id);
+
+    }
+    @PostMapping(value="/voyages")
+    public ResponseEntity<Void> creerVoyage(@RequestBody Voyage voyage){
+        Voyage voyage1 = voyageRepository.save(voyage);
+        if(voyage == null){
+            return ResponseEntity.noContent().build();
+        }
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(voyage1.getIdVoyage())
+                .toUri();
+        return ResponseEntity.created(location).build();
+
+    }
+    @PutMapping(value="voyages/{id}")
+    public ResponseEntity<Voyage> updateVoyage(@PathVariable(value = "id") int id,
+                                               @Valid @RequestBody Voyage voyage2){
+        Voyage voyage1 = voyageRepository.findById(id);
+
+
+        voyage1.setDestination(voyage2.getDestination());
+        voyage1.setDescription(voyage2.getDescription());
+        voyage1.setPrix(voyage2.getPrix());
+        voyage1.setCategorie(voyage2.getCategorie());
+        final Voyage updatedVoyage = voyageRepository.save(voyage1);
+        return ResponseEntity.ok(updatedVoyage);
+    }
+    @DeleteMapping(value="voyages/{id}")
+    public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") int id){
+
+        Voyage voyage1 = voyageRepository.findById(id);
+
+
+        voyageRepository.delete(voyage1);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
     @GetMapping("/participations")
     public ArrayList<Parpff> listeParticipation(){/*
     	Voyageur voyageur = new Voyageur();
@@ -84,6 +134,7 @@ public class RestController {
     public ArrayList<Voyageur> listeVoyageur(){
         return (ArrayList<Voyageur>) voyageurRepository.findAll();
     }
+
    
     @PostMapping("/Enregistrer-Participation")
     public Participation participationenreg(@RequestBody Map<String, String> body)

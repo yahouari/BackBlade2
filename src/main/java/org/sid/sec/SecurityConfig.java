@@ -38,7 +38,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 		 http
          .authorizeRequests()
              .antMatchers( "/favicon.ico").permitAll();
-		http.authorizeRequests().antMatchers("/users/**","/login/**").permitAll();
+		http.authorizeRequests().antMatchers("/users/**","/login/**","/voyages/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.POST,"/tasks/**").hasAuthority("ADMIN");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
