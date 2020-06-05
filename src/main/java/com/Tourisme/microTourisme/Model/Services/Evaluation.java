@@ -12,61 +12,55 @@ import javax.persistence.Table;
 public class Evaluation{
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idEvaluation;
-	private int idVoyage;
-	private int idVoyageur;
-    private String noteVoyage;
-    private String noteGuide;
-    private String noteService;
-    private String refaireExperience;
-    private String mot;
-	public Integer getIdEvaluation() {
-		return idEvaluation;
+	 private int ideval;
+		private String username;
+		private String destination;
+		private int note;
+		private String dateevaluation;
+	    public Evaluation() {}
+	    public Evaluation(int ideval,String destination,String username,int note,String dateevaluation)
+	    {this.ideval=ideval;
+	    this.destination=destination;
+	    this.username=username;
+	    this.note=note;
+	    this.dateevaluation=dateevaluation;}
+	    public int getideval() {
+			return ideval;
+		}
+		public void setideval(int ideval) {
+			this.ideval = ideval;
+		}
+	    
+	    public String getdestination() {
+			return destination;
+		}
+		public void setdestination(String destination) {
+			this.destination = destination;
+		}
+		public String getusername() {
+			return username;
+		}
+		public void setusername(String username) {
+			this.username = username;
+		}
+		public int getnote() {
+			return note;
+		}
+		public void setnote(int note) {
+			this.note = note;
+		}
+		public String getdateevaluation() {
+			return dateevaluation;
+		}
+		public void setdateevaluation(String dateevaluation) {
+			this.dateevaluation=dateevaluation;
+		}
+		@Override
+	    public String toString(){  
+	        return "IdEval=" +ideval+
+	        ",username=" +username+ 
+	        ",destination=" +destination+ 
+	        ",note="+note+",DateEvaluation="+dateevaluation+"}";
+	    }
 	}
-	public void setIdEvaluation(Integer idEvaluation) {
-		this.idEvaluation = idEvaluation;
-	}
-	public int getIdVoyage() {
-		return idVoyage;
-	}
-	public void setIdVoyage(int idVoyage) {
-		this.idVoyage = idVoyage;
-	}
-	public int getIdVoyageur() {
-		return idVoyageur;
-	}
-	public void setIdVoyageur(int idVoyageur) {
-		this.idVoyageur = idVoyageur;
-	}
-	public String getNoteVoyage() {
-		return noteVoyage;
-	}
-	public void setNoteVoyage(String noteVoyage) {
-		this.noteVoyage = noteVoyage;
-	}
-	public String getNoteGuide() {
-		return noteGuide;
-	}
-	public void setNoteGuide(String noteGuide) {
-		this.noteGuide = noteGuide;
-	}
-	public String getNoteService() {
-		return noteService;
-	}
-	public void setNoteService(String noteService) {
-		this.noteService = noteService;
-	}
-	public String getRefaireExperience() {
-		return refaireExperience;
-	}
-	public void setRefaireExperience(String refaireExperience) {
-		this.refaireExperience = refaireExperience;
-	}
-	public String getMot() {
-		return mot;
-	}
-	public void setMot(String mot) {
-		this.mot = mot;
-	}
-   
-}
+
