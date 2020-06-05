@@ -7,12 +7,14 @@ import com.Tourisme.microTourisme.Model.Services.Participation;
 import com.Tourisme.microTourisme.Model.Services.Voyage;
 import com.Tourisme.microTourisme.Model.Services.Voyageur;
 import com.Tourisme.microTourisme.Model.Services.Repository.FavorisRepository;
+import com.Tourisme.microTourisme.Model.Services.Repository.EvaluationRepository;
 import com.Tourisme.microTourisme.Model.Services.Repository.ParpffRepository;
 import com.Tourisme.microTourisme.Model.Services.Repository.ParticipationRepository;
 import com.Tourisme.microTourisme.Model.Services.Repository.VoyageRepository;
 import com.Tourisme.microTourisme.Model.Services.Repository.VoyageurRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.Tourisme.microTourisme.Model.Services.Evaluation;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class RestController {
     private ParticipationRepository participationRepository;
     @Autowired
     private ParpffRepository parpffRepository;
+    @Autowired
+    private EvaluationRepository evaluationRepository;
     
     @Autowired
     private VoyageRepository voyageRepository;
@@ -202,6 +206,32 @@ public class RestController {
     voyageur=voyageurRepository.findByMailContains(mail);
 	return (ArrayList<Parpff>) parpffRepository.findAllBynom(voyageur.getNom());
   }
+    @GetMapping("/eval")
+    public List<Evaluation>listeEvaluation() {
+        return evaluationRepository.findAll();
+        
+    }
+    @GetMapping("/eval/{Id}")
+    public  Optional<Evaluation>findbyid(@PathVariable String Id){	
+    	int evalId = Integer.parseInt(Id);
+    	return evaluationRepository.findById(evalId);
+    }
+    @PostMapping("/eval")
+    public Evaluation createeval(@RequestBody Map<String,String> body)
+    {int ideval=Integer.parseInt(body.get("ideval"));
+    String destination=body.get("destination");
+    String username=body.get("username");
+    int note=Integer.parseInt(body.get("note"));
+    String dateevaluation=body.get("dateevaluation");
+    return evaluationRepository.save(new Evaluation(ideval,destination,username,note,dateevaluation));
+     }
+    @DeleteMapping("/eval/{Id}") 	
+    public boolean deleteeval(@PathVariable String Id) {
+    	int evalId=Integer.parseInt(Id);
+    	try {
+    	evaluationRepository.deleteById(evalId);
+    	return true;   	
+    }
     
     
     
